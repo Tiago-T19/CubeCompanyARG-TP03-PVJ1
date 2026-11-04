@@ -12,6 +12,26 @@ public class PlayerInteraction : MonoBehaviour
 
         if (currentObject != null && Input.GetKeyDown(KeyCode.E))
         {
+            // ===== PICKABLE =====
+
+            PickAble pickAble = ((MonoBehaviour)currentObject).GetComponent<PickAble>();
+
+            if (pickAble != null)
+            {
+                if (pickAble.TryPickUp())
+                {
+                    InventoryManager.Instance.AddItem(
+                        pickAble.ItemData,
+                        pickAble.Quantity
+                    );
+                }
+
+                return;
+            }
+          
+            // ===== FIN PICKABLE =====
+
+
             if (currentObject.canInteract())
             {
                 IInteractable selectedObject = currentObject;
