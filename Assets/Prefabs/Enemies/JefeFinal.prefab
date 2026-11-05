@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 7318836157901633356}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.13, y: 1.79, z: -0.66}
+  m_LocalPosition: {x: 30.810312, y: 1.8331002, z: 420.99185}
   m_LocalScale: {x: 1.4331, y: 1.4331, z: 1.4331}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -151,7 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e5c7ad5531322147acc7563cc3b408e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JefeFinal
-  data: {fileID: 11400000, guid: 66b360f84d7c309408f95f3ed4760776, type: 2}
+  data: {fileID: 11400000, guid: 4e54107168d24b446895b8259c196ed8, type: 2}
   speedFallback: 3.5
   detectionRadiusFallback: 8
   attackRadiusFallback: 2
@@ -173,5 +173,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18c0538713fe5b5419c69bcf4c6aa92e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
-  data: {fileID: 11400000, guid: 66b360f84d7c309408f95f3ed4760776, type: 2}
+  data: {fileID: 11400000, guid: 4e54107168d24b446895b8259c196ed8, type: 2}
   maxHealthFallback: 100

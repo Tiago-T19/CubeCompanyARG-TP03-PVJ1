@@ -28,7 +28,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Raycast Settings")]
     [SerializeField] private bool isGrounded;
-    [SerializeField] private float rayDistance = 1.1f;
+    [SerializeField] private float rayDistance = 2f;
     [SerializeField] private LayerMask groundLayer;
 
     // Opcional TP3 - descomenta cuando crees el PlayerStats.asset
@@ -45,12 +45,12 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         // --- GAME MANAGER TP3 - DESCOMENTAR CUANDO LO TENGAS ---
-        // if (GameManager.Instance != null && GameManager.Instance.currentState != GameManager.GameState.Playing)
-        // {
-        //     moveHorizontal = 0;
-        //     moveVertical = 0;
-        //     return;
-        // }
+        if(GameManager.Instance != null && GameManager.Instance.estadoActual != EstadoJuego.Jugando)
+        {
+            moveHorizontal = 0;
+            moveVertical = 0;
+            return;
+        }
 
         if (isStop) return;
 
@@ -67,11 +67,11 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         // --- GAME MANAGER TP3 - DESCOMENTAR CUANDO LO TENGAS ---
-        // if (GameManager.Instance != null && GameManager.Instance.currentState != GameManager.GameState.Playing)
-        // {
-        //     rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, 0);
-        //     return;
-        // }
+        if (GameManager.Instance != null && GameManager.Instance.estadoActual != EstadoJuego.Jugando)
+        {
+        rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, 0);
+        return;
+        }
 
         if (isStop)
         {
