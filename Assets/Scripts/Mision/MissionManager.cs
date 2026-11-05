@@ -26,8 +26,7 @@ public class MissionManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P)) PendingObject();
-        if (Input.GetKeyDown(KeyCode.Q)) DeliverObjects();
+        if (Input.GetKeyDown(KeyCode.Q)) PendingObject();
     }
 
     private void RegisterCollectedObject()
