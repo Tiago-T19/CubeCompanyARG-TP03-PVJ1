@@ -3,7 +3,7 @@ using UnityEngine.AI;
 
 public class JefeFinal : EnemyAI {
     public bool fase2 = false;
-    private HealthSystem vida;
+    public HealthSystem vida;
 
     protected override void Awake()
     {
