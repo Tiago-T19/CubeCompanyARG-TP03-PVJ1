@@ -12280,7 +12280,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1c3189c03be834ccbbb5b154729720b7, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.9694824
+      value: -1.49
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1c3189c03be834ccbbb5b154729720b7, type: 3}
       propertyPath: m_LocalRotation.w
@@ -12313,7 +12313,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 1c3189c03be834ccbbb5b154729720b7, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 6ebd0dc60beee5249a4564a3349752bb, type: 2}
+      objectReference: {fileID: 2100000, guid: d9f656ab4bcfa8645b83ab56b1d99458, type: 2}
     - target: {fileID: 919132149155446097, guid: 1c3189c03be834ccbbb5b154729720b7, type: 3}
       propertyPath: m_Name
       value: Item_Knife
@@ -15229,8 +15229,10 @@ GameObject:
   m_Component:
   - component: {fileID: 650208568}
   - component: {fileID: 650208567}
+  - component: {fileID: 650208569}
+  - component: {fileID: 650208570}
   m_Layer: 5
-  m_Name: UIDocument
+  m_Name: InventoryUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15268,12 +15270,36 @@ Transform:
   m_GameObject: {fileID: 650208566}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -2, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &650208569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 650208566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9265f1ff4a8f02044acdcac6ec2b4018, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HotBarController
+--- !u!114 &650208570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 650208566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 995914d9610cd274b9882224e69a8724, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InventoryUIController
 --- !u!1 &651698513
 GameObject:
   m_ObjectHideFlags: 0
@@ -16728,7 +16754,7 @@ GameObject:
   - component: {fileID: 696631112}
   - component: {fileID: 696631111}
   m_Layer: 0
-  m_Name: manager
+  m_Name: InventoryManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16755,12 +16781,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 696631110}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 66.06409, y: 0, z: 420.76947}
+  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
+  m_LocalPosition: {x: 2.0259094, y: -1.17, z: 2.100525}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 755982911}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &697738369
 GameObject:
@@ -18280,6 +18306,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2120277771}
+  - {fileID: 696631112}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!114 &755982912
@@ -38645,11 +38672,27 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: c7741850eebe1df4ea75a80275b16311, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 4966e8c4cca205b46ad8c638103d0352, type: 2}
     - target: {fileID: 2300002, guid: c7741850eebe1df4ea75a80275b16311, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 4966e8c4cca205b46ad8c638103d0352, type: 2}
     - target: {fileID: 2300004, guid: c7741850eebe1df4ea75a80275b16311, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 4966e8c4cca205b46ad8c638103d0352, type: 2}
+    - target: {fileID: 2300006, guid: c7741850eebe1df4ea75a80275b16311, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 4966e8c4cca205b46ad8c638103d0352, type: 2}
+    - target: {fileID: 2300008, guid: c7741850eebe1df4ea75a80275b16311, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 4966e8c4cca205b46ad8c638103d0352, type: 2}
+    - target: {fileID: 2300010, guid: c7741850eebe1df4ea75a80275b16311, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 4966e8c4cca205b46ad8c638103d0352, type: 2}
@@ -59535,8 +59578,8 @@ SceneRoots:
   m_Roots:
   - {fileID: 2118706413}
   - {fileID: 975497139}
-  - {fileID: 696631112}
   - {fileID: 755982911}
+  - {fileID: 650208568}
   - {fileID: 38883795}
   - {fileID: 697738370}
   - {fileID: 1374299535}
@@ -59544,5 +59587,4 @@ SceneRoots:
   - {fileID: 1782059380}
   - {fileID: 388151642}
   - {fileID: 1363756709}
-  - {fileID: 650208568}
   - {fileID: 575026671}

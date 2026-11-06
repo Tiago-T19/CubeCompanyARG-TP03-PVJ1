@@ -10,7 +10,7 @@ public class LoadingManager : MonoBehaviour
 
     void Start()
     {
-        string escenaDestino = PlayerPrefs.GetString("NextScene", "Main City");
+        string escenaDestino = PlayerPrefs.GetString("NextScene", "Level2");
         StartCoroutine(CargarEscenaAsincrona(escenaDestino));
     }
 

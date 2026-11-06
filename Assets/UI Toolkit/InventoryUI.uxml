@@ -1,9 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ui:UXML
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ui="UnityEngine.UIElements"
-    xmlns:uie="UnityEditor.UIElements"
-    xsi:noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd"
->
-    
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/slot_Style.uss?fileID=7433441132597879392&amp;guid=1ddc169eba514804ab6ef3b2e8be8091&amp;type=3#slot_Style"/>
+    <ui:VisualElement name="HotBar-grid" style="flex-grow: 1; flex-direction: row; flex-wrap: wrap; background-color: rgba(0, 0, 0, 0); align-items: flex-end; justify-content: center;">
+        <ui:VisualElement name="Slot1" class="slot_Style slotSelected styleSelected slotSelect">
+            <ui:Image name="slot01" source="" style="width: 146px; height: 132px; position: absolute; top: auto; left: 1px; bottom: 4px; border-top-color: rgb(0, 0, 0);">
+                <ui:Label text="1" name="Slots-Quantity" style="position: absolute; top: auto; left: 6px; bottom: 4px; right: auto; font-size: 20px; -unity-text-outline-color: rgb(0, 0, 0); color: rgb(61, 80, 186); height: 26px; width: 10px;"/>
+            </ui:Image>
+        </ui:VisualElement>
+        <ui:VisualElement name="Slot2" class="slot_Style" style="width: 150px; height: 150px;">
+            <ui:Image name="slot02" source="" style="width: 146px; height: 132px; position: absolute; top: auto; left: 0; bottom: 8px;">
+                <ui:Label text="2" name="Slots-Quantity" style="position: absolute; top: auto; left: 7px; bottom: 4px; right: auto; font-size: 20px; -unity-text-outline-color: rgb(0, 0, 0); color: rgb(84, 98, 229); height: 26px; width: 10px;"/>
+            </ui:Image>
+        </ui:VisualElement>
+        <ui:VisualElement name="Slot3" class="slot_Style" style="height: 150px; width: 150px;">
+            <ui:Image name="slot03" source="" style="width: 146px; height: 132px; position: absolute; top: auto; left: 1px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; bottom: 8px;">
+                <ui:Label text="3" name="Slots-Quantity" style="position: absolute; top: auto; left: 6px; bottom: 3px; right: auto; font-size: 20px; -unity-text-outline-color: rgb(0, 0, 0); color: rgb(84, 119, 228); height: 26px; width: 10px;"/>
+            </ui:Image>
+        </ui:VisualElement>
+    </ui:VisualElement>
 </ui:UXML>

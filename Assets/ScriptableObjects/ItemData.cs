@@ -5,7 +5,7 @@ public class ItemData : ScriptableObject
 {
     public string itemID;
     public string itemName;
-    public string icon;
+    public Sprite icon;
     public string description;
     public int maxStackSize = 3;
 

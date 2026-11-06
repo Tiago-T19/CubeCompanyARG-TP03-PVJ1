@@ -1,0 +1,31 @@
+using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+
+public class HealthBar : MonoBehaviour
+{
+    [SerializeField] private Image rellenoBarraVida;
+    [SerializeField] private TMP_Text textoVida;
+
+    private HealthSystem healthSystem;
+
+
+    private void Start()
+    {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        healthSystem = player.GetComponent<HealthSystem>();
+    }
+
+    void Update()
+    {
+        if (healthSystem == null)
+            return;
+
+        // ubicalo a tu manera seba
+
+        //rellenoBarraVida.fillAmount =
+         //   healthSystem.CurrentHealth / healthSystem.MaxHealth;
+
+
+    }
+}

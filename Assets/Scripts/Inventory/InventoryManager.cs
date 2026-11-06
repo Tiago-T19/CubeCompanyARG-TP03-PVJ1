@@ -23,6 +23,8 @@ public class InventoryManager : MonoBehaviour
 
     public bool AddItem(ItemData itemData, int quantity)
     {
+        Debug.Log("Agregando: " + itemData.itemName);
+
         for (int i = 0; i < slots.Length; i++)
         {
             if (slots[i] != null && slots[i].itemData == itemData)
@@ -45,5 +47,10 @@ public class InventoryManager : MonoBehaviour
             }
         }
         return false; // No hay espacio en el inventario
+    }
+
+    public InventorySlot[] GetSlots()
+    {
+        return slots;
     }
 }
