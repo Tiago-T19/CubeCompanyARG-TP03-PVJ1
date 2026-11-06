@@ -23,7 +23,7 @@ Lenguaje: C#
 ___
 
 ## 🎮 Descripcion del Proyecto
-...
+
 ___
 ## 🕹️ Controles del Jugador
 | Accion | Tecla/Boton | Descripcion|
@@ -33,23 +33,25 @@ ___
 | **Interactuar** | `E` / Contacto con zona (`Trigger`) | Interactua con objetos y recolecta |
 ___
 ## ⚙️ Mecanicas
-- **Mecanica 1**
-Encargado: Integrante 1
-Hace cosas
+### 1. Nombre de la mecanica
+- **Encargado:** Integrante 1
+
+    La mecanica hace esto
 ___
 ## 📝 Explicacion Tecnica de Codigo:
-1. ### Codigo
-Script principal: script.cs
-Funcionamiento: Funciona :D
-Encargado: Integrante 2
+### 1. Codigo
+- Script principal: `script.cs`
+- Funcionamiento: 
+- Encargado: Integrante 2
 
 ### script.cs
 ```csharp
- parte importante del script
+ Parte importante del script
 ```
 ___
 
 ## 📸 Capturas de Pantalla
+![Imagen](Images/1.png)
 ___
 
 ## ▶️ Como abrir y ejecutar el proyecto
