@@ -1,60 +1,68 @@
-### Ejemplo de README por sección: 
+# Trabajo Práctico N° 3
+> Asignatura: Programación de Videojuegos I 
+Carrera: Tecnicatura Universitaria en Diseño Integral de Videojuegos (TUDIVJ) — UNJu |
+Trabajo Práctico N° 3: Sistema de Interfaz de Usuario (UI), Control de Flujo de Juego, Arquitectura de
+Datos y Versionamiento Colaborativo con Ramas en Git/GitHub |
+Equipo Docente: Mg. Ing. Ariel Alejandro Vega | Tecn. Kevin Alexis Roman Llampa
+### Grupo: CubeCompanyARG
+| **Integrantes** | **LU** | **UsuarioGithub** | **Rama** | **Rol** |
+|---|---|---|---|---|
+| Carla Dalila Angelo | TUV000563 | AngeloCarla | AngeloCarla | Programador |
+| ... | ... | ... | ... | ... |
+| ... | ... | ... | ... | ... |
+| ... | ... | ... | ... | ... |
+| ... | ... | ... | ... | ... |
+| ... | ... | ... | ... | ... |
 
-1. **Encabezado:** Nombre del proyecto, tus datos personales (Nombre, Apellido, LU) y los datos de la asignatura. 
-2. **Descripción:** Explicación conceptual corta del nivel para que quien revise el repositorio entienda el objetivo del juego sin necesidad de abrir Unity. 
-3. **Tabla de Controles:** Cuadro simple que indica qué teclas se usan y para qué sirven. 
-4. **Capturas de Pantalla:** Capturas de pantalla o un GIF animado mostrando el juego en funcionamiento. 
-5. **Explicación de Codigo:** Detalle de los codigos principales del TP1 (**Invocaciones temporizadas**, **Corrutinas** y **Emparentamiento con `SetParent\`**), incluyendo fragmentos cortos de código en C#.
+___
+## 🛠️ Version de Unity
 
-# `Ejemplo de Estructura de Readme `
+> Unity: Unity 6.3 LTS
+Proyecto: 3D
+Lenguaje: C#
+___
 
-#  [Nombre del Proyecto / Juego] 
+## 🎮 Descripcion del Proyecto
+...
+___
+## 🕹️ Controles del Jugador
+| Accion | Tecla/Boton | Descripcion|
+|-----|-----------|--------|
+| **Movimiento** | `W` , `A` , `S` , `D` / `Flechas` | Mueve al personaje por el escenario |
+| **Saltar** | `ESPACIO` | Saltar entre plataformas |
+| **Interactuar** | `E` / Contacto con zona (`Trigger`) | Interactua con objetos y recolecta |
+___
+## ⚙️ Mecanicas
+- **Mecanica 1**
+Encargado: Integrante 1
+Hace cosas
+___
+## 📝 Explicacion Tecnica de Codigo:
+1. ### Codigo
+Script principal: script.cs
+Funcionamiento: Funciona :D
+Encargado: Integrante 2
 
-> **Asignatura:** Programación de Videojuegos I 
-> **Carrera:** Tecnicatura Universitaria en Diseño Integral de Videojuegos (TUDIVJ) — UNJu 
-> **Trabajo Práctico N° 1:** Entorno Interactivo 3D, Temporizadores y Git/GitHub 
-> **Estudiante:** [Nombre y Apellido] 
-> **LU:** [Tu Número de LU] 
->**Equipo Docente:** Mg. Ing. Ariel Alejandro Vega | Tecn. Kevin Alexis Roman Llampa 
---- 
-## 🎮 Descripción del Proyecto  
+### script.cs
+```csharp
+ parte importante del script
+```
+___
 
-<!-- 
-Párrafo breve (3 a 5 líneas) explicando de qué trata tu nivel de juego.
-Ejemplo: "En este proyecto el jugador debe recorrer un circuito de plataformas en espacio abierto, esquivando trampas temporizadas y generadores de obstáculos. El objetivo final es encontrar el objeto clave, transportarlo hasta la zona de Meta y activar el pedestal de victoria."
--->
+## 📸 Capturas de Pantalla
+___
 
-[Escribe aquí la descripción de tu juego] 
+## ▶️ Como abrir y ejecutar el proyecto
 
---- 
-
-## 🕹️ Controles del Jugador 
-| Acción | Tecla / Botón | Descripción | 
-| :--- | :--- | :--- | 
-| **Movimiento** | `W`, `A`, `S`, `D` / Flechas | Mover al personaje por el escenario | 
-| **Salto** | `Espacio` | Saltar entre plataformas | 
-| **Interactuar / Recolectar** | `E` / Contacto con zona(`Trigger`) | Recolectar el objeto clave o activar Power-Up | 
-
---- 
-## 📸 Capturas de Pantalla  
-
-<!-- 
-Inserta 1 o 2 imágenes o GIFs animados del juego en ejecución.
-Puedes colocar la imagen dentro de tu carpeta del proyecto (ej: Assets/Documentation/demo.gif)
-o subirla a GitHub y pegar la ruta aquí.
---> 
-![Vista General del Nivel Parkour 3D](ruta/a/tu/imagen\_o\_gif.gif) 
-
---- 
-## 📝 Explicación Técnica de Codigo: 
-<!-- Explica los scripts  detallando su nombre, el funcionamiento brevemente y un fragmento qque destaque o resalte del script -->  
-
-### 1. Invocaciones Temporizadas (`InvokeRepeating`)
-
-* **Script principal:** `[NombreDelScript.cs]` 
-* **Funcionamiento:** Ejemplo: Se utilizó `InvokeRepeating` para instanciar proyectiles cada 2 segundos desde un punto fijo en el techo. 
-```csharp 
-// Fragmento destacado del script: 
-private void Start() {
- InvokeRepeating(nameof(SpawnObstaculo), tiempoInicial, intervaloRepeticion); 
- }
+1. Descargar o clonar el repositorio desde GitHub.
+2. Abrir Unity Hub.
+3. Abrir el proyecto utilizando **Unity 6.3 LTS**
+4. Abrir la escena principal ubicada en `Assets/Scenes/`
+5. Presionar **Play** para ejecutar el juego
+6. Utilizar los controles indicados en la seccion **Controles del Jugador**
+___
+## 📚 Bibliografia
+- [README.md - Markdown](https://markdown.es)
+- [Material de clase — Programacion de Videojuegos I](https://virtual.unju.edu.ar/course/view.php?id=2520)
+- [Material dado por el profesor Kevin Alexis Roman Llampa](https://github.com/Kivito3d/TP3_PVJ1_2026.git)
+- Apuntes y ejemplos dados durante las clases de Programacion de Videojuegos I
