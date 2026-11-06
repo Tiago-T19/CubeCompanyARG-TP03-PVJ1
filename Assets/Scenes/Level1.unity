@@ -12280,7 +12280,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1c3189c03be834ccbbb5b154729720b7, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.9694824
+      value: -1.49
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1c3189c03be834ccbbb5b154729720b7, type: 3}
       propertyPath: m_LocalRotation.w
@@ -12313,7 +12313,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 1c3189c03be834ccbbb5b154729720b7, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 6ebd0dc60beee5249a4564a3349752bb, type: 2}
+      objectReference: {fileID: 2100000, guid: d9f656ab4bcfa8645b83ab56b1d99458, type: 2}
     - target: {fileID: 919132149155446097, guid: 1c3189c03be834ccbbb5b154729720b7, type: 3}
       propertyPath: m_Name
       value: Item_Knife
@@ -15230,7 +15230,7 @@ GameObject:
   - component: {fileID: 650208568}
   - component: {fileID: 650208567}
   m_Layer: 5
-  m_Name: UIDocument
+  m_Name: InventoryUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15268,7 +15268,7 @@ Transform:
   m_GameObject: {fileID: 650208566}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -2, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -38645,11 +38645,27 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: c7741850eebe1df4ea75a80275b16311, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 4966e8c4cca205b46ad8c638103d0352, type: 2}
     - target: {fileID: 2300002, guid: c7741850eebe1df4ea75a80275b16311, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 4966e8c4cca205b46ad8c638103d0352, type: 2}
     - target: {fileID: 2300004, guid: c7741850eebe1df4ea75a80275b16311, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 4966e8c4cca205b46ad8c638103d0352, type: 2}
+    - target: {fileID: 2300006, guid: c7741850eebe1df4ea75a80275b16311, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 4966e8c4cca205b46ad8c638103d0352, type: 2}
+    - target: {fileID: 2300008, guid: c7741850eebe1df4ea75a80275b16311, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 4966e8c4cca205b46ad8c638103d0352, type: 2}
+    - target: {fileID: 2300010, guid: c7741850eebe1df4ea75a80275b16311, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 4966e8c4cca205b46ad8c638103d0352, type: 2}
@@ -59537,6 +59553,7 @@ SceneRoots:
   - {fileID: 975497139}
   - {fileID: 696631112}
   - {fileID: 755982911}
+  - {fileID: 650208568}
   - {fileID: 38883795}
   - {fileID: 697738370}
   - {fileID: 1374299535}
@@ -59544,5 +59561,4 @@ SceneRoots:
   - {fileID: 1782059380}
   - {fileID: 388151642}
   - {fileID: 1363756709}
-  - {fileID: 650208568}
   - {fileID: 575026671}

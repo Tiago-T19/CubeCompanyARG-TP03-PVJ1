@@ -1,9 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ui:UXML
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ui="UnityEngine.UIElements"
-    xmlns:uie="UnityEditor.UIElements"
-    xsi:noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd"
->
-    
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/slot_Style.uss?fileID=7433441132597879392&amp;guid=1ddc169eba514804ab6ef3b2e8be8091&amp;type=3#slot_Style"/>
+    <ui:VisualElement name="HotBar-grid" style="flex-grow: 1; flex-direction: row; flex-wrap: wrap; background-color: rgba(0, 0, 0, 0); align-items: flex-end; justify-content: center;">
+        <ui:VisualElement name="Slots" class="slot_Style" style="width: 146px; height: 140px;">
+            <ui:Image source="project://database/Assets/IconsImages/gunshot.png?fileID=2800000&amp;guid=9202268eb6110454ca1569b4ae5b7d95&amp;type=3#gunshot" style="width: 146px; height: 132px; position: absolute; top: auto; left: -3px; bottom: 0;">
+                <ui:Label text="1" name="Slots-Quantity" style="position: absolute; top: auto; left: 6px; bottom: 4px; right: auto; font-size: 20px; -unity-text-outline-color: rgb(0, 0, 0); color: rgb(61, 80, 186); height: 26px; width: 10px;"/>
+            </ui:Image>
+        </ui:VisualElement>
+        <ui:VisualElement name="Slots" class="slot_Style" style="width: 146px; height: 140px;">
+            <ui:Image source="project://database/Assets/IconsImages/Knife.png?fileID=2800000&amp;guid=face02265964eac43bcc981384f9bf01&amp;type=3#Knife" style="width: 146px; height: 132px; position: absolute; top: auto; left: -3px; bottom: 0;">
+                <ui:Label text="2" name="Slots-Quantity" style="position: absolute; top: auto; left: 7px; bottom: 4px; right: auto; font-size: 20px; -unity-text-outline-color: rgb(0, 0, 0); color: rgb(84, 98, 229); height: 26px; width: 10px;"/>
+            </ui:Image>
+        </ui:VisualElement>
+        <ui:VisualElement name="Slots" class="slot_Style" style="height: 140px; width: 146px;">
+            <ui:Image source="project://database/Assets/IconsImages/Medkit-Icon.png?fileID=2800000&amp;guid=ad03b0e8a011e0948ba338a6b3947a83&amp;type=3#Medkit-Icon" style="width: 146px; height: 132px; position: absolute; top: auto; left: -4px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; bottom: 0;">
+                <ui:Label text="3" name="Slots-Quantity" style="position: absolute; top: auto; left: 6px; bottom: 3px; right: auto; font-size: 20px; -unity-text-outline-color: rgb(0, 0, 0); color: rgb(84, 119, 228); height: 26px; width: 10px;"/>
+            </ui:Image>
+        </ui:VisualElement>
+    </ui:VisualElement>
 </ui:UXML>
