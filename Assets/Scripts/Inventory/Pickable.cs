@@ -1,4 +1,4 @@
-using UnityEngine;
+/*using UnityEngine;
 
 public class PickAble : MonoBehaviour, IInteractable
 {
@@ -20,7 +20,7 @@ public class PickAble : MonoBehaviour, IInteractable
     {
         if (TryPickUp())
         {
-            InventoryManager.Instance.AddItem(itemData, quantity);
+            InventoryManager.Instance.AddItem(itemData, 1);
         }
     }
 
@@ -46,5 +46,43 @@ public class PickAble : MonoBehaviour, IInteractable
 
         if (destroyOnPickUp)
             Destroy(gameObject);
+    }
+}*/
+
+
+using UnityEngine;
+
+public class PickAble : MonoBehaviour, IInteractable
+{
+    [SerializeField] private ItemData itemData;
+    [SerializeField] private int quantity = 1;
+    [SerializeField] private bool destroyOnPickUp = true;
+
+    private bool pickedUp = false;
+
+    public ItemData ItemData => itemData;
+    public int Quantity => quantity;
+
+    public bool canInteract()
+    {
+        return !pickedUp;
+    }
+
+    public void Interact()
+    {
+        TryPickUp();
+    }
+
+    public bool TryPickUp()
+    {
+        if (pickedUp || itemData == null)
+            return false;
+
+        pickedUp = true;
+
+        if (destroyOnPickUp)
+            Destroy(gameObject);
+
+        return true;
     }
 }
