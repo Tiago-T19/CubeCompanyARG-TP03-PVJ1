@@ -10,7 +10,7 @@ Equipo Docente: Mg. Ing. Ariel Alejandro Vega | Tecn. Kevin Alexis Roman Llampa
 | Carla Dalila Angelo | TUV000563 | AngeloCarla | AngeloCarla | Programador |
 | ... | ... | ... | ... | ... |
 | ... | ... | ... | ... | ... |
-| ... | ... | ... | ... | ... |
+| Lucas Joaquin Aldapi | TUV000559 | Readyplayer24 | LucasAldapi | Diseñador del Nivel |
 | ... | ... | ... | ... | ... |
 | ... | ... | ... | ... | ... |
 
