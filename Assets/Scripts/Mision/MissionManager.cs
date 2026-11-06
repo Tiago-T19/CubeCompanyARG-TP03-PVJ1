@@ -26,7 +26,7 @@ public class MissionManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q)) PendingObject();
+        if (Input.GetKeyDown(KeyCode.Q)) ShowMissionStatus();
     }
 
     private void RegisterCollectedObject()
@@ -35,12 +35,12 @@ public class MissionManager : MonoBehaviour
 
         recoveredObjects++; // Suma un objeto recogido
 
-        Debug.Log($"<color=green>Objetos recuperados: <color=white>{recoveredObjects}/{totalMissionObjects}</color></color>");
+        Debug.Log($"<color=purple>Objetos recuperados: <color=white>{recoveredObjects}/{totalMissionObjects}</color></color>");
     }
 
-    public void PendingObject()
+    public void ShowMissionStatus()
     {
-        Debug.Log($"<color=cyan>Faltan entregar: <color=white>{PendingObjects}</color></color>");
+        Debug.Log($"<color=purple><b>Objetos: <color=white>{deliveredObjects}/{totalMissionObjects}</color></b></color>");
     }
 
     public void DeliverObjects()
