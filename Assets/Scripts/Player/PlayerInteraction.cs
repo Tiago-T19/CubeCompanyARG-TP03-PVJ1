@@ -41,7 +41,6 @@ public class PlayerInteraction : MonoBehaviour
                 currentObject = null;
 
                 selectedObject.Interact(); // Interaccion
-
             }
         }
     }
