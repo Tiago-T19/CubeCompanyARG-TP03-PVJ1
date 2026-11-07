@@ -9,7 +9,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject GameOverPanel;
     [SerializeField] private GameObject InicioPanel;
     [SerializeField] private GameObject HUDPanel;
-    [SerializeField] private TextMeshProUGUI enemiesText;
+    [SerializeField] private TextMeshProUGUI puntajeText;
     [SerializeField] private Slider healthBar;
     [SerializeField] private HealthSystem playerHealth;
 
@@ -18,8 +18,9 @@ public class UIManager : MonoBehaviour
         if(GameManager.Instance != null)
         {
             GameManager.Instance.OnChangeState += HandleState;
-            GameManager.Instance.OnEnemyChange += UpdateEnemies;
-            HandleState(GameManager.Instance.currentState); // <- esto te faltaba
+            GameManager.Instance.OnPuntajeCambiado += UpdatePuntaje;
+            HandleState(GameManager.Instance.currentState);
+            UpdatePuntaje(GameManager.Instance.puntajeAcumulado);
         }
         if(playerHealth != null) playerHealth.OnChangeHealthPlayer += UpdateHealth;
     }
@@ -29,7 +30,7 @@ public class UIManager : MonoBehaviour
         if(GameManager.Instance != null)
         {
             GameManager.Instance.OnChangeState -= HandleState;
-            GameManager.Instance.OnEnemyChange -= UpdateEnemies;
+            GameManager.Instance.OnPuntajeCambiado -= UpdatePuntaje;
         }
         if(playerHealth != null) playerHealth.OnChangeHealthPlayer -= UpdateHealth;
     }
@@ -46,7 +47,7 @@ public class UIManager : MonoBehaviour
         else { Cursor.lockState = CursorLockMode.None; Cursor.visible = true; if(state != GameState.Start) Time.timeScale = 0f; }
     }
 
-    void UpdateEnemies(int c) { if(enemiesText) enemiesText.text = c.ToString(); }
+    void UpdatePuntaje(int p) { if(puntajeText) puntajeText.text = "Puntos: " + p.ToString(); }
     void UpdateHealth(float p) { if(healthBar) healthBar.value = p; }
 
     public void TogglePanel(GameObject panel) { panel.SetActive(!panel.activeSelf); }
