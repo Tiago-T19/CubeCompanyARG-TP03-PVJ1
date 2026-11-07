@@ -9,4 +9,8 @@ public class ItemData : ScriptableObject
     public string description;
     public int maxStackSize = 3;
 
+    public GameObject prefab;
+    // Consumible botiquin 
+    public bool isConsumable;
+    public int healAmount;
 }

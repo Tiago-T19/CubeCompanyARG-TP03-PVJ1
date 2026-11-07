@@ -17,3 +17,6 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 9202268eb6110454ca1569b4ae5b7d95, type: 3}
   description: Arma Tactica de asalto
   maxStackSize: 1
+  prefab: {fileID: 2841705529721371580, guid: 49e50de4c7be9844084f78e312b63d65, type: 3}
+  isConsumable: 0
+  healAmount: 0

@@ -8,19 +8,76 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private int inventorySize = 3;
     private InventorySlot[] slots;
 
+    private int selectedSlot = 0;
+
     public Action OnInventoryChanged;
 
     public void Awake()
     {
-       if(Instance != null)
+        if (Instance != null)
         {
             Destroy(gameObject);
             return;
         }
-       Instance = this;
-    slots = new InventorySlot[inventorySize];
+        Instance = this;
+        slots = new InventorySlot[inventorySize];
     }
 
+    /* private void Update()
+     {
+         float scroll = Input.GetAxis("Mouse ScrollWheel");
+
+         if (scroll > 0f)
+         {
+             selectedSlot++;
+
+             if (selectedSlot >= slots.Length)
+                 selectedSlot = 0;
+
+             EquipSelectedItem();
+         }
+
+         if (scroll < 0f)
+         {
+             selectedSlot--;
+
+             if (selectedSlot < 0)
+                 selectedSlot = slots.Length - 1;
+
+             EquipSelectedItem();
+         }
+     }
+    */
+
+    private void Update()
+    {
+        float scroll = Input.GetAxis("Mouse ScrollWheel");
+
+        if (scroll > 0f)
+        {
+            selectedSlot++;
+
+            if (selectedSlot >= slots.Length)
+                selectedSlot = 0;
+
+            EquipSelectedItem();
+        }
+
+        if (scroll < 0f)
+        {
+            selectedSlot--;
+
+            if (selectedSlot < 0)
+                selectedSlot = slots.Length - 1;
+
+            EquipSelectedItem();
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            UseSelectedItem();
+        }
+    }
     public bool AddItem(ItemData itemData, int quantity)
     {
         Debug.Log("Agregando: " + itemData.itemName);
@@ -35,14 +92,19 @@ public class InventoryManager : MonoBehaviour
             }
         }
 
-
-
-            for (int i = 0; i < slots.Length; i++)
+        for (int i = 0; i < slots.Length; i++)
         {
             if (slots[i] == null)
             {
+              
                 slots[i] = new InventorySlot(itemData, quantity);
                 OnInventoryChanged?.Invoke();
+
+                if (i == selectedSlot)
+                {
+                    EquipmentManager.Instance.Equip(itemData);
+                }
+
                 return true;
             }
         }
@@ -52,5 +114,51 @@ public class InventoryManager : MonoBehaviour
     public InventorySlot[] GetSlots()
     {
         return slots;
+    }
+
+    private void EquipSelectedItem()
+    {
+        if (slots[selectedSlot] == null)
+            return;
+
+        EquipmentManager.Instance.Equip(
+            slots[selectedSlot].itemData
+        );
+    }
+
+    private void UseSelectedItem()
+    {
+        if (slots[selectedSlot] == null)
+            return;
+
+        ItemData item = slots[selectedSlot].itemData;
+
+        if (!item.isConsumable)
+            return;
+
+        GameObject playerObj =
+            GameObject.FindGameObjectWithTag("Player");
+
+        if (playerObj == null)
+            return;
+
+        HealthSystem player =
+            playerObj.GetComponent<HealthSystem>();
+
+        if (player != null)
+        {
+            player.Heal(item.healAmount);
+
+            Debug.Log("Curado +" + item.healAmount);
+        }
+
+        slots[selectedSlot].quantity--;
+
+        if (slots[selectedSlot].quantity <= 0)
+        {
+            slots[selectedSlot] = null;
+        }
+
+        OnInventoryChanged?.Invoke();
     }
 }

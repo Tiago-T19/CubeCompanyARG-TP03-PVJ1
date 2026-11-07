@@ -17,3 +17,4 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: face02265964eac43bcc981384f9bf01, type: 3}
   description: Cuchillo tactico para combate cuerpo a cuerpo
   maxStackSize: 1
+  prefab: {fileID: 5400862678195072899, guid: df2266078594588499554e35e4829e63, type: 3}
