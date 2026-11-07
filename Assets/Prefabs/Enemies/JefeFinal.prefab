@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 7318836157901633356}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 30.810312, y: 1.8331002, z: 420.99185}
+  m_LocalPosition: {x: 32.01816, y: 1.8331003, z: 423.71542}
   m_LocalScale: {x: 1.4331, y: 1.4331, z: 1.4331}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -161,6 +161,7 @@ MonoBehaviour:
   patrolPoints: []
   waitTimeAtPoint: 2
   fase2: 0
+  vida: {fileID: 0}
 --- !u!114 &5173878621097779419
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -173,5 +174,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18c0538713fe5b5419c69bcf4c6aa92e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
-  data: {fileID: 11400000, guid: 4e54107168d24b446895b8259c196ed8, type: 2}
-  maxHealthFallback: 100
+  datosEnemigo: {fileID: 11400000, guid: 4e54107168d24b446895b8259c196ed8, type: 2}
+  isPlayer: 0

@@ -9,16 +9,16 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    [Header("Estado - Punto 5 TP")]
+    [Header("Estado")]
     public EstadoJuego estadoActual = EstadoJuego.Inicio;
     public GameState currentState = GameState.Start;
 
-    // Eventos que espera el UIManager de tu profe
+    // Eventos que espera el UIManager
     public event Action<GameState> OnChangeState;
     public event Action<int> OnEnemyChange;
-    public event Action<int> OnEnemyCountChanged;
+    public event Action<int> OnPuntajeCambiado;
 
-    [Header("Datos Persistentes - Punto 2 TP")]
+    [Header("Datos Persistentes")]
     public float vidaActual = 100f;
     public float vidaMax = 100f;
     public int puntajeAcumulado = 0;
@@ -143,6 +143,6 @@ public class GameManager : MonoBehaviour
     { 
         enemigosRestantes = c; 
         OnEnemyChange?.Invoke(c); 
-        OnEnemyCountChanged?.Invoke(c); 
+        OnPuntajeCambiado?.Invoke(puntajeAcumulado); 
     }
 }

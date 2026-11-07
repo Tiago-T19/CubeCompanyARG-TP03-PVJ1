@@ -3,19 +3,28 @@ using System;
 
 public class HealthSystem : MonoBehaviour
 {
-    public float maxHealth = 100f;
-    public float currentHealth;
-    public bool isPlayer = false; // tildalo solo en el Player
+    [SerializeField] private EnemyData datosEnemigo; // asset enemigo.
+    [SerializeField] private bool isPlayer = false;
+
+    private float maxHealth;
+    private float currentHealth;
 
     public float CurrentHealth => currentHealth;
     public float vidaMax => maxHealth;
     public bool IsDead => currentHealth <= 0;
-    //public bool IsDead => IsDead;
 
     public event Action<float> OnChangeHealthPlayer;
     public event Action OnDeath;
 
-    void Awake() => currentHealth = maxHealth;
+    void Awake()
+    {
+        maxHealth = datosEnemigo != null ? datosEnemigo.vidaMax : 100f;
+
+        if (isPlayer && GameManager.Instance != null)
+            currentHealth = GameManager.Instance.GetVida();
+        else
+            currentHealth = maxHealth;
+    }
 
     public void TakeDamage(float dmg)
     {
@@ -23,16 +32,15 @@ public class HealthSystem : MonoBehaviour
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
         Debug.Log($"{gameObject.name} vida: {currentHealth}");
 
-        if(isPlayer)
+        if (isPlayer)
         {
             OnChangeHealthPlayer?.Invoke(currentHealth / maxHealth);
-            if(GameManager.Instance) GameManager.Instance.SetVida(currentHealth);
-            //GameManager.Instance.SetVida(currentHealth);
-            if(currentHealth <= 0) GameManager.Instance.Derrota();
+            if (GameManager.Instance) GameManager.Instance.SetVida(currentHealth);
+            if (currentHealth <= 0) GameManager.Instance.Derrota();
         }
         else
         {
-            if(currentHealth <= 0) Die();
+            if (currentHealth <= 0) Die();
         }
     }
 
@@ -40,19 +48,18 @@ public class HealthSystem : MonoBehaviour
     {
         currentHealth += amount;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
-        if(isPlayer) 
+        if (isPlayer)
         {
             OnChangeHealthPlayer?.Invoke(currentHealth / maxHealth);
-            if(GameManager.Instance) GameManager.Instance.SetVida(currentHealth);
-            //GameManager.Instance.SetVida(currentHealth);
+            if (GameManager.Instance) GameManager.Instance.SetVida(currentHealth);
         }
     }
 
     void Die()
     {
         OnDeath?.Invoke();
-        if(GameManager.Instance) GameManager.Instance.AddPuntos(10);
-        //GameManager.Instance.AddPuntos(10);
+        int puntos = datosEnemigo != null ? datosEnemigo.puntosAlMorir : 10;
+        if (GameManager.Instance) GameManager.Instance.AddPuntos(puntos);
         Destroy(gameObject);
     }
 }
