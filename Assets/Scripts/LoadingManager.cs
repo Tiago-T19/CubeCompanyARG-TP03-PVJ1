@@ -6,11 +6,12 @@ using TMPro;
 public class LoadingManager : MonoBehaviour
 {
     [Header("UI Opcional")]
-    [SerializeField] private TextMeshProUGUI textoProgreso; 
+    [SerializeField] private TextMeshProUGUI textoProgreso;
 
     void Start()
     {
-        string escenaDestino = PlayerPrefs.GetString("NextScene", "Level2");
+        string escenaDestino = PlayerPrefs.GetString("NextScene", "Level1");
+
         StartCoroutine(CargarEscenaAsincrona(escenaDestino));
     }
 
@@ -18,6 +19,7 @@ public class LoadingManager : MonoBehaviour
     {
         AsyncOperation operacion = SceneManager.LoadSceneAsync(nombreEscena);
         operacion.allowSceneActivation = false;
+
         while (!operacion.isDone)
         {
             float progreso = Mathf.Clamp01(operacion.progress / 0.9f);
@@ -29,8 +31,7 @@ public class LoadingManager : MonoBehaviour
 
             if (operacion.progress >= 0.9f)
             {
-                yield return(new WaitForSeconds(0.5f));
-
+                yield return new WaitForSeconds(0.5f);
                 operacion.allowSceneActivation = true;
             }
 

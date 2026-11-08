@@ -75,17 +75,19 @@ public class GameManager : MonoBehaviour
         OnChangeState?.Invoke(currentState);
     }
 
-    // --- CAMBIO DE NIVELES CON PERSISTENCIA ---
+    // --- CAMBIO DE NIVELES CON PANTALLA DE CARGA ---
     public void IniciarJuego()
     {
         ResetDatos();
-        SceneManager.LoadScene("Level1");
+        PlayerPrefs.SetString("NextScene", "Level1");
+        SceneManager.LoadScene("PantallaDeCarga");
         CambiarEstado(EstadoJuego.Jugando);
     }
 
     public void EntrarComisaria()
     {
-        SceneManager.LoadScene("Level2");
+        PlayerPrefs.SetString("NextScene", "Level2");
+        SceneManager.LoadScene("PantallaDeCarga");
         CambiarEstado(EstadoJuego.Jugando);
     }
 
@@ -93,13 +95,15 @@ public class GameManager : MonoBehaviour
 
     public void SalirComisaria()
     {
-        SceneManager.LoadScene("Level1");
+        PlayerPrefs.SetString("NextScene", "Level1");
+        SceneManager.LoadScene("PantallaDeCarga");
         CambiarEstado(EstadoJuego.Jugando);
     }
 
     public void VolverMenu()
     {
-        SceneManager.LoadScene("MainMenu");
+        PlayerPrefs.SetString("NextScene", "MainMenu");
+        SceneManager.LoadScene("PantallaDeCarga");
         CambiarEstado(EstadoJuego.Inicio);
     }
 
@@ -112,20 +116,22 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         ResetDatos();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        string escenaActual = SceneManager.GetActiveScene().name;
+        PlayerPrefs.SetString("NextScene", escenaActual);
+        SceneManager.LoadScene("PantallaDeCarga");
         CambiarEstado(EstadoJuego.Jugando);
     }
 
     public void SalirDelJuego()
     {
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
-        #else
+#else
         Application.Quit();
-        #endif
+#endif
     }
 
-    // --- DATOS QUE VIAJAN ENTRE NIVELES --
+    // --- DATOS QUE VIAJAN ENTRE NIVELES ---
     public void ResetDatos()
     {
         vidaActual = vidaMax;
