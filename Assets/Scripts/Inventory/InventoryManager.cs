@@ -9,6 +9,7 @@ public class InventoryManager : MonoBehaviour
     private InventorySlot[] slots;
 
     private int selectedSlot = 0;
+    public int SelectedSlot => selectedSlot;
 
     public Action OnInventoryChanged;
 
@@ -23,54 +24,18 @@ public class InventoryManager : MonoBehaviour
         slots = new InventorySlot[inventorySize];
     }
 
-    /* private void Update()
-     {
-         float scroll = Input.GetAxis("Mouse ScrollWheel");
-
-         if (scroll > 0f)
-         {
-             selectedSlot++;
-
-             if (selectedSlot >= slots.Length)
-                 selectedSlot = 0;
-
-             EquipSelectedItem();
-         }
-
-         if (scroll < 0f)
-         {
-             selectedSlot--;
-
-             if (selectedSlot < 0)
-                 selectedSlot = slots.Length - 1;
-
-             EquipSelectedItem();
-         }
-     }
-    */
-
     private void Update()
     {
         float scroll = Input.GetAxis("Mouse ScrollWheel");
 
         if (scroll > 0f)
         {
-            selectedSlot++;
-
-            if (selectedSlot >= slots.Length)
-                selectedSlot = 0;
-
-            EquipSelectedItem();
+            ChangeSelectedSlot(-1);
         }
 
         if (scroll < 0f)
         {
-            selectedSlot--;
-
-            if (selectedSlot < 0)
-                selectedSlot = slots.Length - 1;
-
-            EquipSelectedItem();
+            ChangeSelectedSlot(1);
         }
 
         if (Input.GetMouseButtonDown(0))
@@ -115,6 +80,23 @@ public class InventoryManager : MonoBehaviour
     {
         return slots;
     }
+
+
+    public void ChangeSelectedSlot(int direction)
+    {
+        selectedSlot += direction;
+
+        if (selectedSlot >= slots.Length)
+            selectedSlot = 0;
+
+        if (selectedSlot < 0)
+            selectedSlot = slots.Length - 1;
+
+        EquipSelectedItem();
+
+        OnInventoryChanged?.Invoke();
+    }
+
 
     private void EquipSelectedItem()
     {
