@@ -776,38 +776,489 @@ private void Reload()
 ```
 
 ### 7. Inteligencia Artificial y Enemigos (NavMesh)
-- **Encargado:** Martinez Sebastian
-- **Scripts principales:** `EnemyIA.cs`,  `EnemigoEspecial.cs`,  `JefeFinal.cs`
+- **Encargado:** Sebastián Luciano Martinez
+- **Scripts principales:** `EnemyIA.cs`.
 - **Funcionamiento:** Utiliza el sistema de NavMesh de Unity para el *pathfinding* (búsqueda de rutas) de los enemigos (zombies). Permite que la IA calcule dinámicamente la ruta más corta hacia la posición del jugador, evadiendo colisiones con paredes y obstáculos del escenario durante la persecución.
 
 
 ```csharp
 
+[Header("Asigna el .asset o ScriptableObject de este enemigo")]
+    public EnemyData data;
+
+    public enum AIState { Patrol, Chase, Attack }
+
+    [Header("Estados")]
+    [SerializeField] protected AIState currentState = AIState.Patrol;
+
+    [Header("Patrulla Aleatoria (Random NavMesh)")]
+    [SerializeField] private float patrolRadius = 15f; // Radio maximo desde el origen para buscar puntos al azar
+    [SerializeField] private float waitTimeAtPoint = 2f;
+    private Vector3 startPosition; // Posicion inicial para calcular el radio de patrulla
+    protected bool isWaitingAtPoint;
+
+    protected NavMeshAgent agent;
+    protected Transform playerTransform;
+    protected HealthSystem playerHealth;
+    protected bool isAttacking = false;
+
+    // Lee del .asset si existe
+    protected float SpeedReal => data != null ? data.velocidad : speedFallback;
+    protected float DetectionRadiusReal => data != null ? data.detectionRadius : detectionRadiusFallback;
+    protected float AttackRadiusReal => data != null ? data.attackRadius : attackRadiusFallback;
+    protected float AttackCooldownReal => data != null ? data.attackCooldown : attackCooldownFallback;
+    protected float DamageReal => data != null ? data.danio : damageFallback;
+
+    protected virtual void Awake()
+    {
+        agent = GetComponent<NavMeshAgent>();
+        agent.speed = SpeedReal;
+    }
+
+    protected virtual void Start()
+    {
+        startPosition = transform.position;
+
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj != null)
+        {
+            playerTransform = playerObj.transform;
+            playerHealth = playerObj.GetComponent<HealthSystem>();
+
+            if (playerHealth == null)
+            {
+                Debug.LogWarning("El objeto con Tag 'Player' no tiene el componente HealthSystem adjunto.");
+            }
+        }
+        else
+        {
+            Debug.LogError("No hay GameObject con Tag Player para EnemyAI");
+        }
+
+        GoToNextRandomPoint();
+    }
+
+    protected virtual void Update()
+    {
+        if (playerTransform == null || (playerHealth != null && playerHealth.IsDead))
+        {
+            agent.isStopped = true;
+            return;
+        }
+
+        float distanceToPlayer = Vector3.Distance(transform.position, playerTransform.position);
+
+        switch (currentState)
+        {
+            case AIState.Patrol:
+                UpdatePatrolState(distanceToPlayer);
+                break;
+            case AIState.Chase:
+                UpdateChaseState(distanceToPlayer);
+                break;
+            case AIState.Attack:
+                UpdateAttackState(distanceToPlayer);
+                break;
+        }
+    }
+
+    protected virtual void UpdatePatrolState(float distanceToPlayer)
+    {
+        agent.isStopped = false;
+
+        if (distanceToPlayer <= DetectionRadiusReal)
+        {
+            currentState = AIState.Chase;
+            return;
+        }
+
+        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+        {
+            if (!isWaitingAtPoint)
+            {
+                StartCoroutine(WaitAndMoveToRandomPoint());
+            }
+        }
+    }
+
+    protected virtual void UpdateChaseState(float distanceToPlayer)
+    {
+        agent.isStopped = false;
+        agent.SetDestination(playerTransform.position);
+
+        if (distanceToPlayer <= AttackRadiusReal)
+        {
+            currentState = AIState.Attack;
+            agent.isStopped = true;
+            return;
+        }
+
+        // Si el jugador se aleja demasiado, vuelve a patrullar de forma aleatoria
+        if (distanceToPlayer > DetectionRadiusReal * 1.2f)
+        {
+            currentState = AIState.Patrol;
+            GoToNextRandomPoint();
+        }
+    }
+
+    protected virtual void UpdateAttackState(float distanceToPlayer)
+    {
+        Vector3 direction = (playerTransform.position - transform.position);
+        direction.y = 0;
+        if (direction != Vector3.zero)
+        {
+            transform.rotation = Quaternion.LookRotation(direction);
+        }
+
+        if (distanceToPlayer > AttackRadiusReal * 1.25f)
+        {
+            currentState = AIState.Chase;
+            agent.isStopped = false;
+            isAttacking = false;
+            StopAllCoroutines();
+            return;
+        }
+
+        if (!isAttacking)
+        {
+            StartCoroutine(AttackCooldownRoutine());
+        }
+    }
+
+    protected virtual void ExecuteAttack()
+    {
+        if (playerHealth == null) return;
+        Debug.Log($"Enemigo {data?.nombre ?? "Comun"} ataca e inflige {DamageReal} de dano!");
+        playerHealth.TakeDamage(DamageReal);
+    }
+
+    protected IEnumerator AttackCooldownRoutine()
+    {
+        isAttacking = true;
+        agent.isStopped = true;
+
+        ExecuteAttack();
+
+        yield return new WaitForSeconds(AttackCooldownReal);
+
+        isAttacking = false;
+
+        if (playerTransform != null && Vector3.Distance(transform.position, playerTransform.position) <= AttackRadiusReal)
+        {
+            agent.isStopped = true;
+        }
+        else
+        {
+            agent.isStopped = false;
+        }
+    }
+
+    protected IEnumerator WaitAndMoveToRandomPoint()
+    {
+        isWaitingAtPoint = true;
+        yield return new WaitForSeconds(waitTimeAtPoint);
+
+        GoToNextRandomPoint();
+
+        isWaitingAtPoint = false;
+    }
+
+    // Metodo que calcula una posicion aleatoria valida dentro del NavMesh
+    protected void GoToNextRandomPoint()
+    {
+        Vector3 randomDirection = Random.insideUnitSphere * patrolRadius;
+        randomDirection += startPosition; 
+
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(randomDirection, out hit, 5f, NavMesh.AllAreas))
+        {
+            agent.SetDestination(hit.position);
+        }
+    }
+
+    protected IEnumerator WaitAndMoveToNextPoint()
+    {
+        yield return StartCoroutine(WaitAndMoveToRandomPoint());
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, DetectionRadiusReal);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, AttackRadiusReal);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(Application.isPlaying ? startPosition : transform.position, patrolRadius);
+    }
+
 ```
 
 ### 8. Sistema de Salud (Health System)
-- **Encargado:** [Nombre del Encargado]
-- **Scripts principales:** `HealthSystem.cs` y `EnemyHealth.cs`
+- **Encargado:** Sebastián Luciano Martinez
+- **Scripts principales:** `HealthSystem.cs`
 - **Funcionamiento:** Centraliza la gestión de los puntos de vida (HP) de las entidades del juego. Controla la lógica para recibir daño (proveniente de las armas o ataques enemigos), procesa la curación al consumir botiquines desde el inventario, y ejecuta los eventos de muerte o destrucción cuando la vida llega a cero.
 
 
 ```csharp
 
+[SerializeField] private EnemyData datosEnemigo; // asset enemigo.
+    [SerializeField] private bool isPlayer = false;
+
+    private float maxHealth;
+    private float currentHealth;
+
+    public float CurrentHealth => currentHealth;
+    public float vidaMax => maxHealth;
+    public bool IsDead => currentHealth <= 0;
+
+    public event Action<float> OnChangeHealthPlayer;
+    public event Action OnDeath;
+
+    void Awake()
+    {
+        maxHealth = datosEnemigo != null ? datosEnemigo.vidaMax : 100f;
+
+        if (isPlayer && GameManager.Instance != null)
+            currentHealth = GameManager.Instance.GetVida();
+        else
+            currentHealth = maxHealth;
+    }
+
+    public void TakeDamage(float dmg)
+    {
+        currentHealth -= dmg;
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+        Debug.Log($"{gameObject.name} vida: {currentHealth}");
+
+        if (isPlayer)
+        {
+            OnChangeHealthPlayer?.Invoke(currentHealth / maxHealth);
+            if (GameManager.Instance) GameManager.Instance.SetVida(currentHealth);
+            if (currentHealth <= 0) GameManager.Instance.Derrota();
+        }
+        else
+        {
+            if (currentHealth <= 0) Die();
+        }
+    }
+
+    public void Heal(float amount)
+    {
+        currentHealth += amount;
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+        if (isPlayer)
+        {
+            OnChangeHealthPlayer?.Invoke(currentHealth / maxHealth);
+            if (GameManager.Instance) GameManager.Instance.SetVida(currentHealth);
+        }
+    }
+
+    void Die()
+    {
+        OnDeath?.Invoke();
+        int puntos = datosEnemigo != null ? datosEnemigo.puntosAlMorir : 10;
+        if (GameManager.Instance) GameManager.Instance.AddPuntos(puntos);
+        Destroy(gameObject);
+    }
+
 ```
 
 ### 9. Gestor de Partida (GameManager)
-- **Encargado:** [Nombre del Encargado]
+- **Encargado:** Sebastián Luciano Martinez
 - **Scripts principales:** `GameManager.cs`
 - **Funcionamiento:** Actúa como el controlador principal (a menudo implementado como un Singleton) que administra los estados globales del juego. Gestiona el flujo de la partida, controlando la pausa, la carga de la interfaz de *Game Over* al morir el jugador, la pantalla de Victoria, y coordina la transición hacia el nivel 2 al completar los objetivos de la misión.
 
 
 ```csharp
 
+public static GameManager Instance;
+
+    [Header("Estado")]
+    public EstadoJuego estadoActual = EstadoJuego.Inicio;
+    public GameState currentState = GameState.Start;
+
+    // Eventos que espera el UIManager
+    public event Action<GameState> OnChangeState;
+    public event Action<int> OnPuntajeCambiado;
+
+    [Header("Datos Persistentes")]
+    public float vidaActual = 100f;
+    public float vidaMax = 100f;
+    public int puntajeAcumulado = 0;
+    public int itemsRecolectados = 0;
+    public bool jefeFinalMuerto = false;
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+            ResetDatos();
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+    }
+
+    void Start() => CambiarEstado(EstadoJuego.Inicio);
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (estadoActual == EstadoJuego.Jugando) PausarJuego();
+            else if (estadoActual == EstadoJuego.Pausa) ReanudarJuego();
+        }
+    }
+
+    public void CambiarEstado(EstadoJuego nuevo)
+    {
+        estadoActual = nuevo;
+        currentState = (GameState)nuevo;
+        Debug.Log($"[GameManager] Estado cambiado a: {estadoActual}");
+
+        if (nuevo == EstadoJuego.Pausa)
+            Time.timeScale = 0f;
+        else
+            Time.timeScale = 1f;
+
+        if (nuevo == EstadoJuego.Jugando)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+
+        OnChangeState?.Invoke(currentState);
+    }
+
+    // --- CAMBIO DE NIVELES CON PANTALLA DE CARGA ---
+    public void IniciarJuego()
+    {
+        ResetDatos();
+        PlayerPrefs.SetString("NextScene", "Level1");
+        SceneManager.LoadScene("PantallaDeCarga");
+        CambiarEstado(EstadoJuego.Jugando);
+    }
+
+    public void EntrarComisaria()
+    {
+        PlayerPrefs.SetString("NextScene", "Level2");
+        SceneManager.LoadScene("PantallaDeCarga");
+        CambiarEstado(EstadoJuego.Jugando);
+    }
+
+    public void CargarNivel2() => EntrarComisaria();
+
+    public void SalirComisaria()
+    {
+        PlayerPrefs.SetString("NextScene", "Level1");
+        SceneManager.LoadScene("PantallaDeCarga");
+        CambiarEstado(EstadoJuego.Jugando);
+    }
+
+    public void VolverMenu()
+    {
+        PlayerPrefs.SetString("NextScene", "MainMenu");
+        SceneManager.LoadScene("PantallaDeCarga");
+        CambiarEstado(EstadoJuego.Inicio);
+    }
+
+    public void ReanudarJuego() => CambiarEstado(EstadoJuego.Jugando);
+    public void PausarJuego() => CambiarEstado(EstadoJuego.Pausa);
+    public void Victoria() => CambiarEstado(EstadoJuego.Victoria);
+    public void Derrota() => CambiarEstado(EstadoJuego.Derrota);
+
+    public void ReiniciarNivel()
+    {
+        Time.timeScale = 1f;
+        ResetDatos();
+        string escenaActual = SceneManager.GetActiveScene().name;
+        PlayerPrefs.SetString("NextScene", escenaActual);
+        SceneManager.LoadScene("PantallaDeCarga");
+        CambiarEstado(EstadoJuego.Jugando);
+    }
+
+    public void SalirDelJuego()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+    }
+
+    // --- DATOS QUE VIAJAN ENTRE NIVELES ---
+    public void ResetDatos()
+    {
+        vidaActual = vidaMax;
+        puntajeAcumulado = 0;
+        itemsRecolectados = 0;
+        jefeFinalMuerto = false;
+        OnPuntajeCambiado?.Invoke(puntajeAcumulado);
+    }
+
+    public void SetVida(float v) { vidaActual = v; }
+    public float GetVida() => vidaActual;
+
+    public void AddPuntos(int p)
+    {
+        puntajeAcumulado += p;
+        OnPuntajeCambiado?.Invoke(puntajeAcumulado);
+    }
+
+    public void MatarJefeFinal()
+    {
+        jefeFinalMuerto = true;
+        Debug.Log("Jefe Final derrotado, ¡ya puedes escapar!");
+    }
+
+    public void AddItem(int c = 1) { itemsRecolectados += c; }
+
+
 ```
 ___
 
 ## 📸 Capturas de Pantalla
-![Imagen](Images/1.png)
+
+### Pantalla de Menu Inicial.
+
+![MenuInicial](Screenshots/MenuInicial.png)
+
+### Inventario con 3 Objetos, M4A1, Cuchillo y MedKit.
+
+![Inventario](Screenshots/Inventario.png)
+
+### 1/5 Objetos para recoger, esparcidos por el mapa.
+
+![Objeto](Screenshots/Objeto.png)
+
+### Puerta que abre cuando juntas 5/5 objetos.
+
+![Puerta](Screenshots/Puerta.png)
+
+### Estadio con JefeFinal y EnemigosComunes
+
+![Estadio](Screenshots/Estadio.png)
+
+### GoalZone con la condición de matar al JefeFinal para lograr escapar.
+
+![GoalZone](Screenshots/GoalZone.png)
+
+### Pantalla de Victoria.
+
+![PantallaDeVictoria](Screenshots/Victoria.png)
+
+### Pantalla de GameOver.
+
+![PantallaGameOver](Screenshots/GameOver.png)
 ___
 
 ## ▶️ Como abrir y ejecutar el proyecto
