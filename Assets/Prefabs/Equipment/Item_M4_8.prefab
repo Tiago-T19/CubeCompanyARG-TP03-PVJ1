@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Item_M4_8
       objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: c7741850eebe1df4ea75a80275b16311, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: c7741850eebe1df4ea75a80275b16311, type: 3}
       propertyPath: m_LocalScale.x
       value: 3.2479837
@@ -26,15 +30,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: c7741850eebe1df4ea75a80275b16311, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.22
+      value: 69.6051
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: c7741850eebe1df4ea75a80275b16311, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.72468
+      value: 0.5966749
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: c7741850eebe1df4ea75a80275b16311, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.86
+      value: 417.66995
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: c7741850eebe1df4ea75a80275b16311, type: 3}
       propertyPath: m_LocalRotation.w
@@ -100,7 +104,7 @@ PrefabInstance:
       addedObject: {fileID: 6331828272504678524}
     - targetCorrespondingSourceObject: {fileID: 100002, guid: c7741850eebe1df4ea75a80275b16311, type: 3}
       insertIndex: -1
-      addedObject: {fileID: -2010653009960049778}
+      addedObject: {fileID: 350363562550552230}
   m_SourcePrefab: {fileID: 100100000, guid: c7741850eebe1df4ea75a80275b16311, type: 3}
 --- !u!1 &2841705529721371580 stripped
 GameObject:
@@ -143,7 +147,7 @@ MonoBehaviour:
   itemData: {fileID: 11400000, guid: 5a7c6fb5a07c36e4485e7042f23a2798, type: 2}
   quantity: 1
   destroyOnPickUp: 1
---- !u!114 &-2010653009960049778
+--- !u!114 &350363562550552230
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -154,4 +158,10 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dd83500ac13630e4aa2b8c55c3c99e3e, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::M4Weapon
+  m_EditorClassIdentifier: Assembly-CSharp::GunController
+  damage: 15
+  range: 100
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  maxAmmo: 30

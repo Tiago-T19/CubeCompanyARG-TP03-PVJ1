@@ -6,9 +6,9 @@
   - Tags:
     - Untagged, Respawn, Finish, EditorOnly, MainCamera, Player, GameController, Ground
   - Layers:
-    - Default, TransparentFX, Ignore Raycast, Water, UI, Character, GroundLayer
+    - Default, TransparentFX, Ignore Raycast, Water, UI, Character, GroundLayer, Enemy
 - Active game object:
-  - Name: PatrolPoints
+  - Name: Item_M4_8
   - Tag: Untagged
   - Layer: Default
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->
