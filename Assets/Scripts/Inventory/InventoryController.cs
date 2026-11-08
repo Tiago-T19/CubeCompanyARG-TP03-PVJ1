@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UnityCursor = UnityEngine.Cursor;
 
-public class InventoryUIController : MonoBehaviour
+public class InventoryController : MonoBehaviour
 {
     private VisualElement root;
     private bool inventoryOpen = false;
@@ -13,8 +13,8 @@ public class InventoryUIController : MonoBehaviour
     private VisualElement slot2;
     private VisualElement slot3;
 
-    private int selectedSlot = 0;
-    public int SelectedSlot => selectedSlot;
+    //private int selectedSlot = 0;
+    // public int SelectedSlot => selectedSlot;
 
     private void Start()
     {
@@ -23,6 +23,9 @@ public class InventoryUIController : MonoBehaviour
         slot1 = root.Q<VisualElement>("Slot1");
         slot2 = root.Q<VisualElement>("Slot2");
         slot3 = root.Q<VisualElement>("Slot3");
+
+
+        InventoryManager.Instance.OnInventoryChanged += UpdateSelectedVisual;
 
         // Resaltamos el primer slot
         UpdateSelectedVisual();
@@ -33,13 +36,21 @@ public class InventoryUIController : MonoBehaviour
         UnityCursor.visible = false;
     }
 
+    private void OnDestroy()
+    {
+        if (InventoryManager.Instance != null)
+        {
+            InventoryManager.Instance.OnInventoryChanged -= UpdateSelectedVisual;
+        }
+    }
+
     private void UpdateSelectedVisual()
     {
         slot1.RemoveFromClassList("slotSelected");
         slot2.RemoveFromClassList("slotSelected");
         slot3.RemoveFromClassList("slotSelected");
 
-        switch (selectedSlot)
+        switch (InventoryManager.Instance.SelectedSlot)
         {
             case 0:
                 slot1.AddToClassList("slotSelected");
@@ -77,10 +88,10 @@ public class InventoryUIController : MonoBehaviour
             }
         }
 
-        HandleScrollWheel();
+        // HandleScrollWheel();
     }
 
-    private void HandleScrollWheel()
+    /*private void HandleScrollWheel()
     {
         float scroll = Input.GetAxis("Mouse ScrollWheel");
 
@@ -110,5 +121,5 @@ public class InventoryUIController : MonoBehaviour
 
             Debug.Log("Slot Seleccionado: " + selectedSlot);
         }
-    }
+    }*/
 }
