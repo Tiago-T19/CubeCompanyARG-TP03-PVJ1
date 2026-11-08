@@ -135,4 +135,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 399156789fd58cc41bfcf9c5960c934d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MeleeAttack
-  attackRange: 2
+  damage: 10
+  range: 2
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 0
