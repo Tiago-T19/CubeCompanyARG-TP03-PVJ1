@@ -1,4 +1,5 @@
 # Trabajo Práctico N° 3
+# La Última Resistencia Urbana Version Beta
 > Asignatura: Programación de Videojuegos I 
 Carrera: Tecnicatura Universitaria en Diseño Integral de Videojuegos (TUDIVJ) — UNJu |
 Trabajo Práctico N° 3: Sistema de Interfaz de Usuario (UI), Control de Flujo de Juego, Arquitectura de
@@ -11,19 +12,17 @@ Equipo Docente: Mg. Ing. Ariel Alejandro Vega | Tecn. Kevin Alexis Roman Llampa
 | Sebastian Luciano Martinez | TUV000621 | SebasMartinez07 | Seba | Programador |
 | Tiago L. Misael Tolaba | TUV000834 | Tiago-T19 | TolabaTiago | Programador |
 | Lucas Joaquin Aldapi | TUV000559 | Readyplayer24 | LucasAldapi | Diseñador del Nivel |
-| ... | ... | ... | ... | ... |
-| ... | ... | ... | ... | ... |
+| Mailen Anaid Castro | TUV000582 | | Mailen585 | MailenCastro | Diseñador de nivel |
+
 
 ___
 ## 🛠️ Version de Unity
-
 > Unity: Unity 6.3 LTS
 Proyecto: 3D
 Lenguaje: C#
 ___
-
 ## 🎮 Descripcion del Proyecto
-
+La Última Resistencia Urbana es un videojuego de acción y supervivencia con perspectiva de tercera persona desarrollado bajo una estética LowPoly. Ambientado en una ciudad asolada por una crisis urbana y el colapso total, el jugador asume el rol de un sobreviviente que debe gestionar sus recursos, abrirse paso a través de sectores bloqueados y asegurar zonas estratégicas clave, como el distrito policial y los accesos principales del territorio.
 ___
 ## 🕹️ Controles del Jugador
 | Accion | Tecla/Boton | Descripcion|
@@ -78,6 +77,26 @@ El jugador tiene un sistema de equipamiento que  se encarga de administrar los r
 
 El Jugador Este sistema se encarga de crear un rayo para el arma M4 que le permite guiar el trayecto de la bala y impactar con los enemigos y tambien permite guiar el uso del cuchillo.
 
+### 7. Inteligencia Artificial y Enemigos (NavMesh)
+- **Encargado:** Martinez Sebastian
+
+   Los enemigos (zombies) utilizan el sistema de navegación NavMesh de Unity para desplazarse por el escenario de forma inteligente. Este sistema les permite detectar la posición actual del jugador y calcular la ruta más corta para perseguirlo.
+
+   La IA es capaz de evadir obstáculos y paredes del entorno dinámicamente durante la persecución, obligando al jugador a mantenerse en movimiento constante para sobrevivir.
+
+### 8. Sistema de Salud (Health System)
+- **Encargado:** Martinez Sebastian
+
+   Gestiona los puntos de vida tanto del jugador como de los enemigos. Las entidades reciben daño al ser atacadas (por ataques de zombies o disparos del jugador) y sus estadísticas de vida disminuyen en tiempo real.
+
+   En el caso del jugador, este sistema se comunica directamente con el inventario para poder restaurar puntos de salud utilizando botiquines. Si la salud de cualquier entidad llega a cero, se desencadena su destrucción o el estado de derrota.
+
+### 9. Gestor de la Partida (GameManager)
+- **Encargado:** Martinez Sebastian
+
+   Actúa como el núcleo de control del flujo del juego. Es el script central responsable de administrar los estados de la partida, controlando cuándo el juego está en curso, en pausa, o cuando se llega a las pantallas de Victoria y Game Over.
+
+   Además, coordina los eventos globales entre los demás scripts, validando si se cumplieron los requisitos de la misión para habilitar el nivel 2 y gestionando la transición de escenas.
 
 
 ## 📝 Explicacion Tecnica de Codigo:
@@ -754,6 +773,36 @@ private void Reload()
          }
      }
  }
+```
+
+### 7. Inteligencia Artificial y Enemigos (NavMesh)
+- **Encargado:** Martinez Sebastian
+- **Scripts principales:** `EnemyIA.cs`,  `EnemigoEspecial.cs`,  `JefeFinal.cs`
+- **Funcionamiento:** Utiliza el sistema de NavMesh de Unity para el *pathfinding* (búsqueda de rutas) de los enemigos (zombies). Permite que la IA calcule dinámicamente la ruta más corta hacia la posición del jugador, evadiendo colisiones con paredes y obstáculos del escenario durante la persecución.
+
+
+```csharp
+
+```
+
+### 8. Sistema de Salud (Health System)
+- **Encargado:** [Nombre del Encargado]
+- **Scripts principales:** `HealthSystem.cs` y `EnemyHealth.cs`
+- **Funcionamiento:** Centraliza la gestión de los puntos de vida (HP) de las entidades del juego. Controla la lógica para recibir daño (proveniente de las armas o ataques enemigos), procesa la curación al consumir botiquines desde el inventario, y ejecuta los eventos de muerte o destrucción cuando la vida llega a cero.
+
+
+```csharp
+
+```
+
+### 9. Gestor de Partida (GameManager)
+- **Encargado:** [Nombre del Encargado]
+- **Scripts principales:** `GameManager.cs`
+- **Funcionamiento:** Actúa como el controlador principal (a menudo implementado como un Singleton) que administra los estados globales del juego. Gestiona el flujo de la partida, controlando la pausa, la carga de la interfaz de *Game Over* al morir el jugador, la pantalla de Victoria, y coordina la transición hacia el nivel 2 al completar los objetivos de la misión.
+
+
+```csharp
+
 ```
 ___
 
