@@ -13,9 +13,6 @@ public class InventoryController : MonoBehaviour
     private VisualElement slot2;
     private VisualElement slot3;
 
-    //private int selectedSlot = 0;
-    // public int SelectedSlot => selectedSlot;
-
     private void Start()
     {
         root = GetComponent<UIDocument>().rootVisualElement;
@@ -87,39 +84,5 @@ public class InventoryController : MonoBehaviour
                 UnityCursor.visible = false;
             }
         }
-
-        // HandleScrollWheel();
     }
-
-    /*private void HandleScrollWheel()
-    {
-        float scroll = Input.GetAxis("Mouse ScrollWheel");
-
-        int maxSlots =
-            InventoryManager.Instance.GetSlots().Length;
-
-        if (scroll > 0f)
-        {
-            selectedSlot--;
-
-            if (selectedSlot < 0)
-                selectedSlot = maxSlots - 1;
-
-            UpdateSelectedVisual();
-
-            Debug.Log("Slot Seleccionado: " + selectedSlot);
-        }
-
-        if (scroll < 0f)
-        {
-            selectedSlot++;
-
-            if (selectedSlot >= maxSlots)
-                selectedSlot = 0;
-
-            UpdateSelectedVisual();
-
-            Debug.Log("Slot Seleccionado: " + selectedSlot);
-        }
-    }*/
 }
