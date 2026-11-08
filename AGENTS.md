@@ -8,7 +8,7 @@
   - Layers:
     - Default, TransparentFX, Ignore Raycast, Water, UI, Character, GroundLayer, Enemy
 - Active game object:
-  - Name: Item_M4_8
+  - Name: PatrolPoints
   - Tag: Untagged
   - Layer: Default
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->

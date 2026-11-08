@@ -15,6 +15,11 @@ public class JefeFinal : EnemyAI {
     {
         base.Update();
 
+        if(vida != null && vida.IsDead && GameManager.Instance != null && !GameManager.Instance.jefeFinalMuerto)
+        {
+            GameManager.Instance.MatarJefeFinal();
+        }
+
         //Si le queda menos del 50% de vida, entra en fase 2
         if(!fase2 && vida != null && vida.CurrentHealth > 0 && vida.CurrentHealth <= data.vidaMax * 0.5f)
         {
@@ -23,6 +28,14 @@ public class JefeFinal : EnemyAI {
             data.danio *= 2;
             GetComponent<NavMeshAgent>().speed = data.velocidad;
             Debug.Log("¡Jefe Final en fase 2!, derrotalo.");
+        }
+    }
+
+    void OnDestroy()
+    {
+        if (vida != null && vida.IsDead && GameManager.Instance != null)
+        {
+            GameManager.Instance.MatarJefeFinal();
         }
     }
 }

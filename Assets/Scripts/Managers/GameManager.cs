@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     public float vidaMax = 100f;
     public int puntajeAcumulado = 0;
     public int itemsRecolectados = 0;
+    public bool jefeFinalMuerto = false;
 
     void Awake()
     {
@@ -124,12 +125,13 @@ public class GameManager : MonoBehaviour
         #endif
     }
 
-    // --- DATOS QUE VIAJAN ENTRE NIVELES ---
+    // --- DATOS QUE VIAJAN ENTRE NIVELES --
     public void ResetDatos()
     {
         vidaActual = vidaMax;
         puntajeAcumulado = 0;
         itemsRecolectados = 0;
+        jefeFinalMuerto = false;
         OnPuntajeCambiado?.Invoke(puntajeAcumulado);
     }
 
@@ -140,6 +142,12 @@ public class GameManager : MonoBehaviour
     {
         puntajeAcumulado += p;
         OnPuntajeCambiado?.Invoke(puntajeAcumulado);
+    }
+
+    public void MatarJefeFinal()
+    {
+        jefeFinalMuerto = true;
+        Debug.Log("Jefe Final derrotado, ¡ya puedes escapar!");
     }
 
     public void AddItem(int c = 1) { itemsRecolectados += c; }
