@@ -16,7 +16,7 @@ MonoBehaviour:
   vidaMax: 150
   puntosAlMorir: 10
   danio: 15
-  velocidad: 3.5
-  detectionRadius: 8
+  velocidad: 12
+  detectionRadius: 9
   attackRadius: 2
   attackCooldown: 2.5

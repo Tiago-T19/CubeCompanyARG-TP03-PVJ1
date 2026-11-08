@@ -15,8 +15,8 @@ MonoBehaviour:
   nombre: JefeFinal
   vidaMax: 500
   puntosAlMorir: 50
-  danio: 25
-  velocidad: 2.5
+  danio: 50
+  velocidad: 9
   detectionRadius: 12
   attackRadius: 3
   attackCooldown: 4
