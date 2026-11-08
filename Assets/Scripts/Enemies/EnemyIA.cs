@@ -5,7 +5,7 @@ using UnityEngine.AI;
 public class EnemyAI : MonoBehaviour
 {
     [Header("Asigna el .asset o ScriptableObject de este enemigo")]
-    public EnemyData data; // Arrastra EnemigoComun.asset
+    public EnemyData data;
 
     [Header("Fallback cuando no utilizemos el .asset o ScriptableObject")]
     [SerializeField] private float speedFallback = 3.5f;
@@ -19,10 +19,10 @@ public class EnemyAI : MonoBehaviour
     [Header("Estados")]
     [SerializeField] protected AIState currentState = AIState.Patrol;
 
-    [Header("Patrulla")]
-    [SerializeField] protected Transform[] patrolPoints;
-    [SerializeField] protected float waitTimeAtPoint = 2f;
-    protected int currentPatrolIndex;
+    [Header("Patrulla Aleatoria (Random NavMesh)")]
+    [SerializeField] private float patrolRadius = 15f; // Radio máximo desde el origen para buscar puntos al azar
+    [SerializeField] private float waitTimeAtPoint = 2f;
+    private Vector3 startPosition; // Posición inicial para calcular el radio de patrulla
     protected bool isWaitingAtPoint;
 
     protected NavMeshAgent agent;
@@ -45,21 +45,25 @@ public class EnemyAI : MonoBehaviour
 
     protected virtual void Start()
     {
+        startPosition = transform.position;
+
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
         if (playerObj != null)
         {
             playerTransform = playerObj.transform;
             playerHealth = playerObj.GetComponent<HealthSystem>();
+
+            if (playerHealth == null)
+            {
+                Debug.LogWarning("El objeto con Tag 'Player' no tiene el componente HealthSystem adjunto.");
+            }
         }
         else
         {
             Debug.LogError("No hay GameObject con Tag Player para EnemyAI");
         }
 
-        if (patrolPoints.Length > 0)
-        {
-            GoToNextPatrolPoint();
-        }
+        GoToNextRandomPoint();
     }
 
     protected virtual void Update()
@@ -100,7 +104,7 @@ public class EnemyAI : MonoBehaviour
         {
             if (!isWaitingAtPoint)
             {
-                StartCoroutine(WaitAndMoveToNextPoint());
+                StartCoroutine(WaitAndMoveToRandomPoint());
             }
         }
     }
@@ -113,66 +117,96 @@ public class EnemyAI : MonoBehaviour
         if (distanceToPlayer <= AttackRadiusReal)
         {
             currentState = AIState.Attack;
+            agent.isStopped = true;
             return;
         }
 
+        // Si el jugador se aleja demasiado, vuelve a patrullar de forma aleatoria
         if (distanceToPlayer > DetectionRadiusReal * 1.2f)
         {
             currentState = AIState.Patrol;
-            GoToNextPatrolPoint();
+            GoToNextRandomPoint();
         }
     }
 
     protected virtual void UpdateAttackState(float distanceToPlayer)
     {
-        transform.LookAt(new Vector3(playerTransform.position.x, transform.position.y, playerTransform.position.z));
+        Vector3 direction = (playerTransform.position - transform.position);
+        direction.y = 0;
+        if (direction != Vector3.zero)
+        {
+            transform.rotation = Quaternion.LookRotation(direction);
+        }
 
-        if (distanceToPlayer > AttackRadiusReal)
+        if (distanceToPlayer > AttackRadiusReal * 1.25f)
         {
             currentState = AIState.Chase;
             agent.isStopped = false;
+            isAttacking = false;
+            StopAllCoroutines();
             return;
         }
 
         if (!isAttacking)
         {
-            StartCoroutine(AttackCooldown());
+            StartCoroutine(AttackCooldownRoutine());
         }
     }
 
     protected virtual void ExecuteAttack()
     {
         if (playerHealth == null) return;
-        Debug.Log($"Enemigo {data?.nombre} ataca por {DamageReal}");
+        Debug.Log($"¡Enemigo {data?.nombre ?? "Común"} ataca e inflige {DamageReal} de daño!");
         playerHealth.TakeDamage(DamageReal);
     }
 
-    protected IEnumerator AttackCooldown()
+    protected IEnumerator AttackCooldownRoutine()
     {
         isAttacking = true;
         agent.isStopped = true;
+
         ExecuteAttack();
+
         yield return new WaitForSeconds(AttackCooldownReal);
+
         isAttacking = false;
-        agent.isStopped = false;
+
+        if (playerTransform != null && Vector3.Distance(transform.position, playerTransform.position) <= AttackRadiusReal)
+        {
+            agent.isStopped = true;
+        }
+        else
+        {
+            agent.isStopped = false;
+        }
+    }
+
+    protected IEnumerator WaitAndMoveToRandomPoint()
+    {
+        isWaitingAtPoint = true;
+        yield return new WaitForSeconds(waitTimeAtPoint);
+
+        GoToNextRandomPoint();
+
+        isWaitingAtPoint = false;
+    }
+
+    // Método que calcula una posición aleatoria válida dentro del NavMesh
+    protected void GoToNextRandomPoint()
+    {
+        Vector3 randomDirection = Random.insideUnitSphere * patrolRadius;
+        randomDirection += startPosition; 
+
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(randomDirection, out hit, 5f, NavMesh.AllAreas))
+        {
+            agent.SetDestination(hit.position);
+        }
     }
 
     protected IEnumerator WaitAndMoveToNextPoint()
     {
-        isWaitingAtPoint = true;
-        yield return new WaitForSeconds(waitTimeAtPoint);
-        if (patrolPoints.Length > 0)
-        {
-            currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Length;
-            GoToNextPatrolPoint();
-        }
-        isWaitingAtPoint = false;
-    }
-
-    protected void GoToNextPatrolPoint()
-    {
-        if (patrolPoints.Length == 0) return;
-        agent.SetDestination(patrolPoints[currentPatrolIndex].position);
+        yield return StartCoroutine(WaitAndMoveToRandomPoint());
     }
 
     private void OnDrawGizmosSelected()
@@ -181,5 +215,7 @@ public class EnemyAI : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, DetectionRadiusReal);
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, AttackRadiusReal);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(Application.isPlaying ? startPosition : transform.position, patrolRadius);
     }
 }
